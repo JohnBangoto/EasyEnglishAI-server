@@ -1,0 +1,22 @@
+# Configuration Render (Blueprint). Render lit ce fichier à la création du service.
+services:
+  - type: web
+    name: easyenglishai-server
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Secret de signature des jetons : généré une fois par Render puis conservé entre les redémarrages
+      - key: SERVER_SECRET
+        generateValue: true
+      # À saisir dans le tableau de bord Render (jamais dans le code)
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: DAILY_CHAT_LIMIT
+        value: "40"
+      - key: DAILY_FEEDBACK_LIMIT
+        value: "10"
